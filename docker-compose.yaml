@@ -1,0 +1,8 @@
+services:
+  fluentbit:
+    image: fluent/fluent-bit:1.9.3
+    volumes:
+      - ./fluentbit/conf:/fluent-bit/etc
+      - ./log:/var/log
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
