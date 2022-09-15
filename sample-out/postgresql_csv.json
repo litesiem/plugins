@@ -1,0 +1,17 @@
+{
+	"timestamp": "2022-09-15T21:19:33.000000Z",
+	"user_name": "root",
+	"database_name": "psql",
+	"process_id": "27791",
+	"connection_from": "local",
+	"session_id": "63236cb5.6c8f",
+	"command_tag": "2",
+	"session_start_time": "authentication",
+	"virtual_transaction_id": "2022-09-15 21:19:33 EAT",
+	"transaction_id": "3/498",
+	"error_severity": "0",
+	"sql_state_code": "LOG",
+	"message": "00000",
+	"detail": "provided user name (root) and authenticated user name (neville) do not match",
+	"hostname": "1185f7d0445b"
+}

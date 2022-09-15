@@ -1,0 +1,1 @@
+2022-09-15 21:19:33.371 EAT,"root","psql",27791,"[local]",63236cb5.6c8f,3,"authentication",2022-09-15 21:19:33 EAT,3/498,0,FATAL,28000,"Peer authentication failed for user ""root""","Connection matched pg_hba.conf line 90: ""local   all             all                                     peer""",,,,,,,,""
