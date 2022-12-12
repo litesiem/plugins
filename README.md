@@ -6,9 +6,26 @@ Fake logs are generated using [flog](https://github.com/mingrammer/flog).
 
 [Default](https://github.com/fluent/fluent-bit/blob/master/conf/parsers.conf)/[extra](https://github.com/fluent/fluent-bit/tree/master/conf) fluentbit parsers.
 
+## OSSIM plugins
+
+- [Pardus-Ahtapot/ossim-plugins](https://github.com/Pardus-Ahtapot/ossim-plugins)
+- [benhe119/Ossim-Collector-Plugins](https://github.com/benhe119/Ossim-Collector-Plugins/tree/master/ossim)
+- [jpalanco/alienvault-ossim](https://github.com/jpalanco/alienvault-ossim/tree/f74359c0c027e42560924b5cff25cdf121e5505a/alienvault-plugins/d_clean/plugins)
+
+[Full list [PDF]](https://cdn-cybersecurity.att.com/docs/data-sheets/usm-plugins-list.pdf)
+
+## Custom
+- [rubenespadas/DionaeaOSSIM](https://github.com/rubenespadas/DionaeaOSSIM)
+- [kapistka/OSSIM](https://github.com/kapistka/OSSIM)
+- [monwolf/ossim-plugins-elasticsearch](https://github.com/monwolf/ossim-plugins-elasticsearch)
+
+## Docs
+- [AlienVault docs](https://cybersecurity.att.com/documentation/usm-appliance/plugin-management/developing-new-plugins.htm)
+- [Plugin fundamentals](https://cybersecurity.att.com/documentation/usm-appliance/plugin-management/plugin-fundamentals.htm#Plugin2)
+- [Customize existing plugins](https://cybersecurity.att.com/documentation/usm-appliance/plugin-management/customizing-plugins.htm#Adding)
+
 ## TODO
 - [ ] Read new events only
-- [ ] `Expect` keys to exclude malformed events 
 - [ ] Add `http_out` HTTP Basic Auth
 
 ## Supported clients
@@ -28,10 +45,10 @@ Fake logs are generated using [flog](https://github.com/mingrammer/flog).
 
 ## Development
 
-- Demo:
-  ```sh
-  timeout 10s make flog
-  ```
+Demo:
+```sh
+timeout 10s make flog
+```
 
 ### Local installation
 
