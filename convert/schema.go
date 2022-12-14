@@ -1,6 +1,9 @@
 package main
 
 import (
+	"regexp"
+	"strings"
+
 	"github.com/mitchellh/mapstructure"
 )
 
@@ -14,6 +17,8 @@ type OssimConfig struct {
 // TODO: Add dst_ip, dst_port
 type Default struct {
 	PluginID string `ini:"plugin_id,omitempty" mapstructure:"plugin_id,omitempty"`
+	DstIp    string `ini:"dst_ip,omitempty" mapstructure:"dst_ip,omitempty"`
+	DstPort  string `ini:"dst_port,omitempty" mapstructure:"dst_port,omitempty"`
 }
 
 // TODO: Add exclude_sids
@@ -58,6 +63,34 @@ func NewOssimConfig() *OssimConfig {
 func (c *OssimConfig) DefaultMap() (map[string]string, error) {
 	v := make(map[string]string)
 	err := mapstructure.Decode(c.Default, &v)
+	if err != nil {
+		return v, err
+	}
+
+	return v, nil
+}
+
+var configPattern = regexp.MustCompile(`\\_CFG\((?P<section>[^,]+),(?P<key>[^,]+)\)`)
+
+func (c *OssimConfig) DefaultParsed() (map[string]string, error) {
+	cfg := DefaultConfig()
+	v := make(map[string]string)
+	err := mapstructure.Decode(c.Default, &v)
+
+	for kk, vv := range v {
+		if strings.HasPrefix(vv, `\_CFG`) {
+			match := configPattern.FindStringSubmatch(vv)
+			result := make(map[string]string)
+			for i, name := range configPattern.SubexpNames() {
+				if i != 0 && name != "" {
+					result[name] = match[i]
+				}
+			}
+
+			v[kk] = cfg[result["section"]][result["key"]]
+		}
+	}
+
 	if err != nil {
 		return v, err
 	}

@@ -1,6 +1,8 @@
 local config ={
     DEFAULT={
-        plugin_id={{ .Default.PluginID }}
+        {{- range $k, $v := .DefaultParsed }}
+        {{ $k }}='{{ $v }}',
+        {{- end}}
     },
     config={
         {{- range $k, $v := .ConfigMap }}

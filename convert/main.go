@@ -48,6 +48,27 @@ func cmd() *cli.App {
 	}
 }
 
+type NestedMap map[string]map[string]string
+
+// TODO - parameterize config path
+func DefaultConfig() NestedMap {
+	m := make(NestedMap)
+
+	f, err := ini.Load("samples/config.cfg")
+	if err != nil {
+		panic(err)
+	}
+
+	for _, s := range f.Sections() {
+		m[s.Name()] = make(map[string]string)
+		for _, k := range s.Keys() {
+			m[s.Name()][k.Name()] = k.String()
+		}
+	}
+
+	return m
+}
+
 func ParseConfig(path string) {
 	f, err := ini.Load(path)
 	if err != nil {
