@@ -41,8 +41,34 @@ function p.contains(tbl, val)
     return false
 end
 
-function p.printf(s,...)
+function p.printf(s, ...)
     return io.write(s:format(...))
+end
+
+-- Returns the sorted keys of table `tbl`
+function p.keys(tbl)
+    local keyset = {}
+    local n = 0
+
+    for k, _ in pairs(tbl) do
+        n = n + 1
+        keyset[n] = k
+    end
+
+    table.sort(keyset)
+    return keyset
+end
+
+function p.isdigit(v)
+    return tonumber(v, 10) ~= nil
+end
+
+function p.ios8601(t, sep)
+    if sep == nil then
+        sep = "T"
+    end
+
+    return os.date("!%Y-%m-%d" .. sep .. "%TZ", t)
 end
 
 return p

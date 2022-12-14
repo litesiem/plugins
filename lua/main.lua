@@ -1,21 +1,22 @@
-require "luarocks.loader" -- look for luarocks
+local _ = require("luarocks.loader") -- look for luarocks
+local rex = require("rex_pcre")
+local config = require("conf.linux-usergroupadd")
 
-local rex = require "rex_pcre"
-local config = require "configs.linux-usergroupadd"
-local u = require "utils"
+local date = require("lib.date")
+local net = require("lib.net")
+local md5 = require("lib.md5")
+local u = require("lib.utils")
 
 -- Functions used in rules
-local funcs = {}
-
-function funcs.normalize_date(val)
-    -- TODO: Handle dates
-    return val
-end
-
-function funcs.translate(val)
-    local translation = config.translation[val]
-    return translation == "" and config.translation._DEFAULT_ or translation
-end
+local funcs = {
+    translate = function(val)
+        local translation = config.translation[val]
+        return translation == "" and config.translation._DEFAULT_ or translation
+    end,
+    normalize_date = date.normalize_date,
+    resolv = net.resolv,
+    md5sum = md5.sumhexa
+}
 
 --[[ Parse rules ]]
 
@@ -25,15 +26,15 @@ for _, rule in ipairs(config._rules) do
 end
 
 -- Fields in rule to exclude from record
-local ignore_fields = {"event_type", "precheck", "regexp"}
+local ignore_fields = { "event_type", "precheck", "regexp" }
 
 -- Regexp to parse rule.field.value e.g. "{normalize_date($date)}"
 local rule_value_pattern = [[^\{(?P<fn>[a-z_]+)\(\$(?P<fn_arg>.+)\)|\$(?P<arg>.+)\}$]]
 local rule_value_regex = rex.new(rule_value_pattern)
 local C = {
-    MATCH_FN_NAME="fn",
-    MATCH_FN_ARG="fn_arg",
-    MATCH_ARG="arg"
+    MATCH_FN_NAME = "fn",
+    MATCH_FN_ARG = "fn_arg",
+    MATCH_ARG = "arg"
 }
 
 -- Returns a table containing parsed fields, or nil if no rule matched the input
@@ -54,17 +55,17 @@ local function parse_line(line)
             goto continue
         end
 
-        -- 
-        local record = { plugin_id=config.DEFAULT.plugin_id }
+        --
+        local record = {}
 
         -- Process rule fields
         for k, v in pairs(rule) do
-            
+
             if u.contains(ignore_fields, k) then
                 goto continue_inner
             end
-            
-            local _,_,rule_value = rule_value_regex:exec(v)
+
+            local _, _, rule_value = rule_value_regex:exec(v)
 
             if rule_value == nil then
                 -- Primitive value
@@ -91,8 +92,14 @@ local function parse_line(line)
             ::continue_inner::
         end
 
+        for k, v in pairs(config.DEFAULT) do
+            if record[k] == nil then
+                record[k] = v
+            end
+        end
+
         do return record end
-        
+
         ::continue::
     end
 
