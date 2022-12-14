@@ -11,10 +11,12 @@ type OssimConfig struct {
 	Rules       []Rule         `ini:"rules,omitempty" mapstructure:"rules,omitempty"`
 }
 
+// TODO: Add dst_ip, dst_port
 type Default struct {
 	PluginID string `ini:"plugin_id,omitempty" mapstructure:"plugin_id,omitempty"`
 }
 
+// TODO: Add exclude_sids
 type Config struct {
 	Type       string `ini:"type,omitempty" mapstructure:"type,omitempty"`         // detector
 	Enable     string `ini:"enable,omitempty" mapstructure:"enable,omitempty"`     // yes
