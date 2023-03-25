@@ -1,6 +1,6 @@
 local _ = require("luarocks.loader") -- look for luarocks
 local rex = require("rex_pcre")
-local config = require("conf.linux-usergroupadd")
+local config = require("conf.ssh")
 
 local date = require("lib.date")
 local net = require("lib.net")
@@ -51,7 +51,10 @@ local function parse_line(line)
         ---@diagnostic disable-next-line: undefined-field
         local _, _, matches = rule.regexp:exec(line)
         if matches == nil then
-            u.printf("line does not match rule %d\n", i)
+            if rule.precheck and rule.precheck ~= "" then
+                u.printf("line does not match rule %d\n", i)
+            end
+
             goto continue
         end
 
@@ -77,7 +80,7 @@ local function parse_line(line)
                 local arg = matches[rule_value[C.MATCH_FN_ARG]]
                 local value = func(arg)
                 if value then
-                    record[k] = value
+                    record[k] = u.trim(value)
                 end
             elseif rule_value[C.MATCH_ARG] then
                 -- Regexp match
@@ -108,10 +111,10 @@ end
 
 -- timestamp - Unix timestamp with seconds
 function filter(_, timestamp, record)
-    local parsed = parse_line(record["message"])
+    local parsed = parse_line(record["log"])
 
     if parsed == nil then
-        u.printf("dropping record %s...\n", string.sub(record["message"], 0, 5))
+        -- u.printf("dropping record %s...\n", string.sub(record["log"], 0, 5))
         return -1, timestamp, record
     end
 

@@ -71,4 +71,9 @@ function p.ios8601(t, sep)
     return os.date("!%Y-%m-%d" .. sep .. "%TZ", t)
 end
 
+-- remove trailing and leading whitespace from string.
+function p.trim(s)
+    return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
 return p
