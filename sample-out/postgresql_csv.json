@@ -12,6 +12,6 @@
 	"error_severity": "0",
 	"sql_state_code": "LOG",
 	"message": "00000",
-	"detail": "provided user name (root) and authenticated user name (neville) do not match",
+	"detail": "provided user name (root) and authenticated user name (jack) do not match",
 	"hostname": "1185f7d0445b"
 }

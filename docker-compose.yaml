@@ -3,11 +3,11 @@ services:
     image: fluent/fluent-bit:1.9.3
     volumes:
       - "./fluentbit/conf:/fluent-bit/etc"
-      # - "./log:/var/log"
+      - "./log:/var/log"
       # - "/var/log/apache2:/var/log/apache2/:ro"
       # To find postgresql logs location `psql -U postgres -c 'SHOW data_directory'`
       # - "/var/lib/postgresql/10/main/log:/var/lib/postgresql/10/main/log"
-      - "/var/log/:/var/log/:ro"
+      # - "/var/log/:/var/log/:ro"
     # Access hosts `localhost` from container
     extra_hosts:
       - "host.docker.internal:host-gateway"

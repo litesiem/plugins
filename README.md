@@ -2,10 +2,16 @@
 
 Sample fluentbit client configs/parsers for LiteSIEM.
 
-## TODO
+## Getting started
 
-- [ ] Read new events only
-- [ ] Add `http_out` HTTP Basic Auth
+```sh
+# update fluentbit/conf/fluent-bit.conf
+# map the correct volumes in docker-compose.yaml
+docker compose up
+
+go install github.com/mingrammer/flog@latest
+make flog
+```
 
 ## Clients
 
